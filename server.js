@@ -45,7 +45,7 @@ function getLocalIP() {
   return 'localhost';
 }
 
-const cors = require('cors');
+// const cors = require('cors');
 
 
 
