@@ -6,11 +6,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start3": "nodemon server.js",
     "start": "npm run swagger && nodemon server.js",
-    "start-old": "NODE_ENV=development npm run swagger && nodemon server.js",
     "start-prod": "NODE_ENV=production npm run swagger && node server.js",
     "swagger2": "npm run swagger",
-    "swagger": "node ./swagger.js",
-    "start-prod-old": "node server.js"
+    "swagger": "node ./swagger.js"
   },
   "author": "",
   "license": "ISC",
