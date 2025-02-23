@@ -1,5 +1,19 @@
 const swaggerAutogen = require('swagger-autogen')();
-
+// const doc = {
+//   info: {
+//     title: 'My API',
+//     description: 'Temple API'
+//   },
+//   host: 'pharma7.onrender.com',
+//   schemes: ['http', 'https'],
+//   securityDefinitions: {
+//     apiKeyAuth: {
+//       type: 'apiKey',
+//       in: 'header',
+//       name: 'X-API-KEY',
+//       description: 'API Key Authentication'
+//     }}
+// };
 const doc = {
     info: {
         title: "Pharma API",
@@ -13,10 +27,12 @@ const doc = {
         },
        
     },
-    host: process.env.NODE_ENV === 'production' 
-        ? 'pharma7.onrender.com'
-        : 'localhost:4000',
-    // host: 'localhost:4000',
+    
+  host: 'pharma7.onrender.com',
+    // host: process.env.NODE_ENV === 'production' 
+    //     ? 'pharma7.onrender.com'
+    //     : 'localhost:4000',
+    // // host: 'localhost:4000',
     schemes: process.env.NODE_ENV === 'production' 
     ? ['https'] 
     : ['http', 'https'],

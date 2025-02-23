@@ -11,7 +11,7 @@
       "url": "https://pharma7.onrender.com/api-docs"
     }
   },
-  "host": "localhost:4000",
+  "host": "pharma7.onrender.com",
   "basePath": "/",
   "schemes": [
     "http",
@@ -349,13 +349,16 @@
         "tags": [
           "Meds"
         ],
-        "description": "Endpoint to get all MEDS contacts",
+        "description": "Endpoint to get all medications",
         "produces": [
           "application/json"
         ],
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       },
@@ -363,13 +366,27 @@
         "tags": [
           "Meds"
         ],
-        "description": "Endpoint to create a Meds",
-        "produces": [
-          "application/json"
+        "description": "Endpoint to create a new medication",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Medication information",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Meds"
+            }
+          }
         ],
         "responses": {
+          "201": {
+            "description": "Created"
+          },
           "412": {
             "description": "Precondition Failed"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
@@ -410,21 +427,33 @@
         "tags": [
           "Meds"
         ],
-        "description": "Endpoint to create a Meds",
-        "produces": [
-          "application/json"
-        ],
+        "description": "Endpoint to create a new medication",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Medication information",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Meds"
+            }
           }
         ],
         "responses": {
+          "201": {
+            "description": "Created"
+          },
           "412": {
             "description": "Precondition Failed"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       },
@@ -432,21 +461,30 @@
         "tags": [
           "Meds"
         ],
-        "description": "Endpoint to create a Meds",
-        "produces": [
-          "application/json"
-        ],
+        "description": "Endpoint to create a new medication",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Medication information",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Meds"
+            }
           }
         ],
         "responses": {
-          "default": {
-            "description": ""
+          "201": {
+            "description": "Created"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
