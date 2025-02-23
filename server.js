@@ -45,12 +45,30 @@ function getLocalIP() {
   return 'localhost';
 }
 
+const cors = require('cors');
+
+
+
 mongodb.initDb((err, mongodb) => {
     if (err) {
       console.log(err);
     } else {
         const PORT = process.env.PORT || 4000;
         const localIP = getLocalIP();
+        // Configure CORS
+        app.use(cors({
+        origin: [
+        'https://pharma7.onrender.com',
+        'http://localhost:4000'
+        ],
+        methods: ['GET', 'POST', 'PUT', 'DELETE'],
+        credentials: true
+}));
+
+
+
+
+
         app.listen(PORT, '0.0.0.0', () => {
           console.log(`Server is running on http://localhost:${PORT}/api-docs`);
           // console.log(`Network access: https://${localIP}:${PORT}/api-docs`);
@@ -59,6 +77,8 @@ mongodb.initDb((err, mongodb) => {
         });
     }
 });
+
+
 
 // // Start server
 // const PORT = process.env.PORT || 4000;
