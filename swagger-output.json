@@ -364,59 +364,12 @@
           "Meds"
         ],
         "description": "Endpoint to create a Meds",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "Name": {
-                  "example": "any"
-                },
-                "FillDate": {
-                  "example": "any"
-                },
-                "Prescription": {
-                  "example": "any"
-                },
-                "Rx": {
-                  "example": "any"
-                },
-                "Qty": {
-                  "example": "any"
-                },
-                "Prescriber": {
-                  "example": "any"
-                },
-                "Pharmacist": {
-                  "example": "any"
-                },
-                "NDC": {
-                  "example": "any"
-                },
-                "Insurance": {
-                  "example": "any"
-                },
-                "Claim": {
-                  "example": "any"
-                },
-                "Price": {
-                  "example": "any"
-                }
-              }
-            }
-          }
+        "produces": [
+          "application/json"
         ],
         "responses": {
-          "201": {
-            "description": "Created"
-          },
           "412": {
             "description": "Precondition Failed"
-          },
-          "500": {
-            "description": "Internal Server Error"
           }
         }
       }
@@ -458,65 +411,20 @@
           "Meds"
         ],
         "description": "Endpoint to create a Meds",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "Name": {
-                  "example": "any"
-                },
-                "FillDate": {
-                  "example": "any"
-                },
-                "Prescription": {
-                  "example": "any"
-                },
-                "Rx": {
-                  "example": "any"
-                },
-                "Qty": {
-                  "example": "any"
-                },
-                "Prescriber": {
-                  "example": "any"
-                },
-                "Pharmacist": {
-                  "example": "any"
-                },
-                "NDC": {
-                  "example": "any"
-                },
-                "Insurance": {
-                  "example": "any"
-                },
-                "Claim": {
-                  "example": "any"
-                },
-                "Price": {
-                  "example": "any"
-                }
-              }
-            }
           }
         ],
         "responses": {
-          "201": {
-            "description": "Created"
-          },
           "412": {
             "description": "Precondition Failed"
-          },
-          "500": {
-            "description": "Internal Server Error"
           }
         }
       },
@@ -525,62 +433,20 @@
           "Meds"
         ],
         "description": "Endpoint to create a Meds",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "Name": {
-                  "example": "any"
-                },
-                "FillDate": {
-                  "example": "any"
-                },
-                "Prescription": {
-                  "example": "any"
-                },
-                "Rx": {
-                  "example": "any"
-                },
-                "Qty": {
-                  "example": "any"
-                },
-                "Prescriber": {
-                  "example": "any"
-                },
-                "Pharmacist": {
-                  "example": "any"
-                },
-                "NDC": {
-                  "example": "any"
-                },
-                "Insurance": {
-                  "example": "any"
-                },
-                "Claim": {
-                  "example": "any"
-                },
-                "Price": {
-                  "example": "any"
-                }
-              }
-            }
           }
         ],
         "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "500": {
-            "description": "Internal Server Error"
+          "default": {
+            "description": ""
           }
         }
       }

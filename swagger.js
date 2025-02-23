@@ -3,18 +3,18 @@ const swaggerAutogen = require('swagger-autogen')();
 const doc = {
     info: {
         title: "Pharma API",
-        description: "Week6 CSE 341 - Rune Larsen",
+        description: "Week7 CSE 341 - Rune Larsen",
         name: "Rune",
         version: "1.0.0",
         contact: {
             name: "Rune Larsen",
             email: "theonlyrune@byui.edu",
-            url: "https://pharma2.onrender.com/api-docs"
+            url: "https://pharma7.onrender.com/api-docs"
         },
        
     },
     host: process.env.NODE_ENV === 'production' 
-        ? 'pharma2.onrender.com'
+        ? 'pharma7.onrender.com'
         : 'localhost:4000',
     // host: 'localhost:4000',
     schemes: process.env.NODE_ENV === 'production' 
