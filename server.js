@@ -9,11 +9,12 @@ const os = require('os');
 // Configure CORS
 const corsOptions = {
   origin: '*',
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   preflightContinue: false,
   optionsSuccessStatus: 200,
   credentials: true,
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  maxAge: 600
 };
 
 // Add middleware
@@ -21,7 +22,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Add CORS middleware
-app.use(cors());
+app.use(cors(corsOptions));
 
 const mongodb = require('./db/connect');
 
@@ -31,6 +32,16 @@ app.set('views', './views');
 
 app.use('/', require('./routes'))
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+// Add this after your routes
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({
+      error: 'Internal Server Error',
+      message: err.message
+  });
+});
+
 
 function getLocalIP() {
   const interfaces = os.networkInterfaces();
