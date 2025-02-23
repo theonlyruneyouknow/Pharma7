@@ -1,0 +1,96 @@
+// LOCALHOST
+### Get all Perception
+GET http://localhost:4000/meds
+
+### Get contact by id
+GET http://localhost:4000/meds/67a83b503661552f6c3eae43
+
+### Create Perception
+POST http://localhost:4000/meds HTTP/1.1
+content-type: application/json
+
+{
+  "Name": null,
+  "FillDate": null,
+  "Prescription": null,
+  "Rx": null,
+  "Qty": null,
+  "Prescriber": null,
+  "Pharmacist": null,
+  "NDC": null,
+  "Insurance": null,
+  "ClaimReference": null,
+  "Price": null
+}
+
+### PUT Perception
+PUT http://localhost:4000/meds/67a83b503661552f6c3eae43 HTTP/1.1
+content-type: application/json
+
+{
+  "Name": null,
+  "FillDate": null,
+  "Prescription": null,
+  "Rx": null,
+  "Qty": null,
+  "Prescriber": null,
+  "Pharmacist": null,
+  "NDC": null,
+  "Insurance": null,
+  "ClaimReference": null,
+  "Price": null
+}
+### DELETE Perception
+DELETE http://localhost:4000/meds/67a842d13661552f6c3eae48 HTTP/1.1
+
+
+
+// PRODUCTION Deploy
+### Get all Perceptions
+GET https://pharma2.onrender.com/meds
+
+
+### Get Perception by id
+GET https://pharma2.onrender.com/meds/67a82b2ca90c009b480814e4
+
+
+### Create Perception
+POST https://pharma2.onrender.com/meds HTTP/1.1
+content-type: application/json
+
+{
+  "Name": null,
+  "FillDate": null,
+  "Prescription": null,
+  "Rx": null,
+  "Qty": null,
+  "Prescriber": null,
+  "Pharmacist": null,
+  "NDC": null,
+  "Insurance": null,
+  "ClaimReference": null,
+  "Price": null
+}
+
+
+### PUT Perception
+PUT https://pharma2.onrender.com/meds/67a82b2ca90c009b480814e4 HTTP/1.1
+content-type: application/json
+
+{
+  "Name": null,
+  "FillDate": null,
+  "Prescription": null,
+  "Rx": null,
+  "Qty": null,
+  "Prescriber": null,
+  "Pharmacist": null,
+  "NDC": null,
+  "Insurance": null,
+  "ClaimReference": null,
+  "Price": null
+}
+
+
+### DELETE Perception
+DELETE https://pharma2.onrender.com/meds/67a82b2ca90c009b480814e4 HTTP/1.1

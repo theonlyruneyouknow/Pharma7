@@ -1,0 +1,72 @@
+// LOCALHOST
+### Get all contacts
+GET http://localhost:4000/contacts
+
+### Get contact by id
+GET http://localhost:4000/contacts/678c73608e2de64be9771a47
+
+### Create contact
+POST http://localhost:4000/contacts HTTP/1.1
+content-type: application/json
+
+{
+    "firstName":"Ashley",
+    "lastName":"Weaver",
+    "email":"aWeaver@test.com",
+    "favoriteColor":"Brown",
+    "birthday":"06/19/2000"
+}
+
+### PUT contact
+PUT http://localhost:4000/contacts/678c73608e2de64be9771a47 HTTP/1.1
+content-type: application/json
+
+{
+"firstName": "Sam",
+  "lastName": "Larsen",
+  "email": "sam.larsen@missionary.com",
+  "favoriteColor": "Pink",
+  "birthday": "3/7/2001"
+}
+### DELETE contact
+DELETE http://localhost:4000/contacts/6656935c57018278d00293c7 HTTP/1.1
+
+
+
+// PRODUCTION Deploy
+### Get all contacts
+GET https://w1sol.onrender.com/contacts
+
+
+### Get contact by id
+GET https://w1sol.onrender.com/contacts/622023f642f9ab4cd6e060b3
+
+
+### Create contact
+POST https://w1sol.onrender.com/contacts HTTP/1.1
+content-type: application/json
+
+{
+    "firstName":"Lilly",
+    "lastName":"Larsen",
+    "email":"lilly@test.com",
+    "favoriteColor":"Brown",
+    "birthday":"06/19/2006"
+}
+
+
+### PUT contact
+PUT https://w1sol.onrender.com/contacts/67931a227be3fa850e4227fb HTTP/1.1
+content-type: application/json
+
+{
+    "firstName":"Lynn",
+    "lastName":"Larsen",
+    "email":"lynn@gmail.com",
+    "favoriteColor":"Yellow",
+    "birthday":"06/12/2003"
+}
+
+
+### DELETE contact
+DELETE https://w1sol.onrender.com/contacts/6220e34083149913680f9a64 HTTP/1.1
