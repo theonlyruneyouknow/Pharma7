@@ -56,14 +56,14 @@ mongodb.initDb((err, mongodb) => {
         const PORT = process.env.PORT || 4000;
         const localIP = getLocalIP();
         // Configure CORS
-        app.use(cors({
-        origin: [
-        'https://pharma7.onrender.com',
-        'http://localhost:4000'
-        ],
-        methods: ['GET', 'POST', 'PUT', 'DELETE'],
-        credentials: true
-}));
+//         app.use(cors({
+//         origin: [
+//         'https://pharma7.onrender.com',
+//         'http://localhost:4000'
+//         ],
+//         methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//         credentials: true
+// }));
 
 
 
@@ -76,7 +76,9 @@ mongodb.initDb((err, mongodb) => {
         //   console.log(`Connected to DB and listening on ${port}`);
         });
     }
-});
+}
+)
+;
 
 
 

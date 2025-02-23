@@ -453,32 +453,160 @@
     }
   },
   "definitions": {
-    "Contact": {
+    "Meds": {
       "type": "object",
       "properties": {
-        "firstName": {
+        "type": {
           "type": "string",
-          "example": "Sarah"
+          "example": "object"
         },
-        "lastName": {
-          "type": "string",
-          "example": "Birch"
-        },
-        "email": {
-          "type": "string",
-          "example": "sarah@test.com"
-        },
-        "favoriteColor": {
-          "type": "string",
-          "example": "Blue"
-        },
-        "birthday": {
-          "type": "string",
-          "example": "1990-01-01"
-        },
-        "Name": {
-          "type": "string",
-          "example": "Rune"
+        "properties": {
+          "type": "object",
+          "properties": {
+            "Name": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "Medication Name"
+                }
+              }
+            },
+            "FillDate": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "2025-02-22"
+                }
+              }
+            },
+            "Prescription": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "12345"
+                }
+              }
+            },
+            "Rx": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "integer"
+                },
+                "example": {
+                  "type": "number",
+                  "example": 1234
+                }
+              }
+            },
+            "Qty": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "integer"
+                },
+                "example": {
+                  "type": "number",
+                  "example": 30
+                }
+              }
+            },
+            "Prescriber": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "Dr. Smith"
+                }
+              }
+            },
+            "Pharmacist": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "John Doe"
+                }
+              }
+            },
+            "NDC": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "1234567890"
+                }
+              }
+            },
+            "Insurance": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "Insurance Co"
+                }
+              }
+            },
+            "Claim": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "CLM123"
+                }
+              }
+            },
+            "Price": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "100.00"
+                }
+              }
+            }
+          }
         }
       }
     }
