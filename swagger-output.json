@@ -344,6 +344,16 @@
         }
       }
     },
+    "/meds/health": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/meds/": {
       "get": {
         "tags": [

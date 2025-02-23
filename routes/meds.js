@@ -5,6 +5,11 @@ const medsController = require('../controllers/meds');
 
 const validation = require('../middleware/validate');
 
+// Health check endpoint
+router.get('/health', (req, res) => {
+    res.status(200).json({ status: 'ok' });
+});
+
 router.get('/', medsController.getAllMeds);
 
 router.get('/:id', medsController.getSingleMeds);
