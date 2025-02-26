@@ -3,39 +3,166 @@
   "info": {
     "title": "Pharma API",
     "description": "Week7 CSE 341 - Rune Larsen",
-    "name": "Rune",
-    "version": "1.0.0",
-    "contact": {
-      "name": "Rune Larsen",
-      "email": "theonlyrune@byui.edu",
-      "url": "https://pharma7.onrender.com/api-docs"
-    }
+    "version": "1.0.0"
   },
   "host": "pharma7.onrender.com",
   "basePath": "/",
-  "schemes": [
-    "http",
-    "https"
-  ],
-  "securityDefinitions": {
-    "apiKey": {
-      "type": "apiKey",
-      "name": "api_key",
-      "in": "header"
-    },
-    "OAuth2": {
-      "type": "oauth2",
-      "flow": "implicit",
-      "authorizationUrl": "http://example.com/oauth/authorize"
+  "tags": [
+    {
+      "name": "Meds",
+      "description": "Medications endpoints"
     }
-  },
-  "consumes": [
-    "application/json"
   ],
-  "produces": [
-    "application/json"
+  "schemes": [
+    "https",
+    "http"
   ],
   "paths": {
+    "/": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Meds"
+        ],
+        "description": "Create a new medication",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Medication information",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Meds"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "412": {
+            "description": "Precondition Failed"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Meds"
+        ],
+        "description": "Create a new medication",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Medication information",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Meds"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "412": {
+            "description": "Precondition Failed"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Meds"
+        ],
+        "description": "Create a new medication",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Medication information",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Meds"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/wife": {
       "get": {
         "tags": [
@@ -94,16 +221,6 @@
           "Contacts"
         ],
         "description": "Endpoint to update all contacts",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/": {
-      "get": {
-        "description": "",
         "responses": {
           "200": {
             "description": "OK"
@@ -356,19 +473,10 @@
     },
     "/meds/": {
       "get": {
-        "tags": [
-          "Meds"
-        ],
-        "description": "Endpoint to get all medications",
-        "produces": [
-          "application/json"
-        ],
+        "description": "",
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
+          "default": {
+            "description": ""
           }
         }
       },
@@ -376,7 +484,7 @@
         "tags": [
           "Meds"
         ],
-        "description": "Endpoint to create a new medication",
+        "description": "Create a new medication",
         "parameters": [
           {
             "name": "body",
@@ -403,13 +511,7 @@
     },
     "/meds/{id}": {
       "get": {
-        "tags": [
-          "Meds"
-        ],
-        "description": "Endpoint to get one Meds",
-        "produces": [
-          "application/json"
-        ],
+        "description": "",
         "parameters": [
           {
             "name": "id",
@@ -419,17 +521,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
+          "default": {
+            "description": ""
           }
         }
       },
@@ -437,7 +530,7 @@
         "tags": [
           "Meds"
         ],
-        "description": "Endpoint to create a new medication",
+        "description": "Create a new medication",
         "parameters": [
           {
             "name": "id",
@@ -471,7 +564,7 @@
         "tags": [
           "Meds"
         ],
-        "description": "Endpoint to create a new medication",
+        "description": "Create a new medication",
         "parameters": [
           {
             "name": "id",
@@ -495,6 +588,16 @@
           },
           "500": {
             "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -657,22 +760,6 @@
           }
         }
       }
-    }
-  },
-  "parameters": {
-    "limitParam": {
-      "name": "limit",
-      "in": "query",
-      "description": "Maximum number of records to return",
-      "type": "integer"
-    }
-  },
-  "responses": {
-    "NotFound": {
-      "description": "Resource not found"
-    },
-    "InvalidInput": {
-      "description": "Invalid input"
     }
   }
 }
