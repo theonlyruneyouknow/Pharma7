@@ -6,17 +6,17 @@ const saveContact = (req, res, next) => {
 
   const validationRule = {
     Name: 'required|string',
-    FillDate: 'string',
-    Prescription: 'string',
-    Rx: 'integer',
-    Qty: 'integer',
-    Prescriber: 'string',
-    Pharmacist: 'string',
-    NDC: 'integer',
-    Insurance: 'string',
+    FillDate: 'required|string',
+    Prescription: 'required|string',
+    Rx: 'required|integer',
+    Qty: 'required|integer',
+    Prescriber: 'required|string',
+    Pharmacist: 'required|string',
+    NDC: 'required|integer',
+    Insurance: 'required|string',
     // Change this to accept any type instead of requiring a string
-    // ClaimReference: 'string',  
-    Price: 'string'
+    ClaimReference: 'any',  
+    Price: 'required|string'
   };
 
   // Uncomment the validator function to actually perform validation
