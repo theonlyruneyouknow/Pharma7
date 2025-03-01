@@ -7,8 +7,7 @@
     "start3": "nodemon server.js",
     "start2": "npm run swagger && node server.js",
     "start": "npm run swagger && nodemon server.js",
-    "start-old": "NODE_ENV=development npm run swagger && nodemon server.js",
-    "start-prod": "NODE_ENV=production npm run swagger && node server.js",
+    "start-prod": "set NODE_ENV=production && node server.js",
     "swagger2": "npm run swagger",
     "swagger": "node ./swagger.js",
     "start-prod-old": "node server.js"
