@@ -1,0 +1,61 @@
+<!-- < %- include('layout', {title: 'User Profile' , isAuthenticated: isAuthenticated}); %> -->
+
+    <div class="row">
+        <div class="col-md-12 mb-4">
+            <h1 class="display-5">User Profile</h1>
+            <p class="lead">Your authenticated profile information</p>
+            <hr>
+        </div>
+
+        <div class="col-md-4">
+            <% if (user.picture) { %>
+                <img src="<%= user.picture %>" alt="Profile Picture" class="img-fluid rounded-circle mb-3"
+                    style="max-width: 150px;">
+                <% } else { %>
+                    <div class="bg-secondary text-white rounded-circle d-flex align-items-center justify-content-center mb-3"
+                        style="width: 150px; height: 150px; font-size: 50px;">
+                        <%= user.name ? user.name.charAt(0).toUpperCase() : 'U' %>
+                    </div>
+                    <% } %>
+        </div>
+
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Account Information</h5>
+                    <table class="table table-borderless">
+                        <tr>
+                            <th>Name:</th>
+                            <td>
+                                <%= user.name %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Email:</th>
+                            <td>
+                                <%= user.email %>
+                            </td>
+                        </tr>
+                        <% if (user.email_verified !==undefined) { %>
+                            <tr>
+                                <th>Email Verified:</th>
+                                <td>
+                                    <% if (user.email_verified) { %>
+                                        <span class="badge bg-success">Verified</span>
+                                        <% } else { %>
+                                            <span class="badge bg-warning text-dark">Not Verified</span>
+                                            <% } %>
+                                </td>
+                            </tr>
+                            <% } %>
+                                <tr>
+                                    <th>User ID:</th>
+                                    <td><small class="text-muted">
+                                            <%= user.id %>
+                                        </small></td>
+                                </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>

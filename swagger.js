@@ -6,7 +6,7 @@ const doc = {
         description: "Week7 CSE 341 - Rune Larsen",
         version: "1.0.0"
     },
-    host: process.env.NODE_ENV === 'production' 
+    host: process.env.NODE_ENV === 'production'
         ? 'pharma7.onrender.com'
         : 'localhost:4000',
     schemes: process.env.NODE_ENV === 'production'
@@ -18,6 +18,16 @@ const doc = {
             description: 'Medications endpoints'
         }
     ],
+    securityDefinitions: {
+        bearerAuth: {
+            type: 'http',
+            scheme: 'bearer',
+            bearerFormat: 'JWT'
+        }
+    },
+    security: [{
+        bearerAuth: []
+    }],
     definitions: {
         Meds: {
             type: "object",

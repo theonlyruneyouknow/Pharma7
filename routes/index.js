@@ -1,51 +1,43 @@
-const routes = require('express').Router();
+const express = require('express');
+const router = express.Router();
 
+// Import controllers
 const baseController = require('../controllers');
 const secondController = require('../controllers/second');
 const myFamilyController = require('../controllers/myFamily');
 const contactController = require('../controllers/contact_test');
-const medsController = require('../controllers/meds');
 
-routes.get('/wife', myFamilyController.getWife);
-routes.get('/son', myFamilyController.getSon);
-routes.get('/daughter1', myFamilyController.getDaughter1);
-routes.get('/daughter2', myFamilyController.getDaughter2);
-routes.get('/Age3', myFamilyController.getAge3);
+// Define routes
+router.get('/wife', myFamilyController.getWife);
+router.get('/son', myFamilyController.getSon);
+router.get('/daughter1', myFamilyController.getDaughter1);
+router.get('/daughter2', myFamilyController.getDaughter2);
+router.get('/Age3', myFamilyController.getAge3);
 
+router.get('/', (req, res) => {
+  res.render('index', {
+    title: 'Home',
+    isAuthenticated: req.oidc.isAuthenticated(),
+    user: req.oidc.isAuthenticated() ? req.oidc.user : null
+  });
+});
 
-// routes.get('/meds', medsController.getMeds);
+router.get('/savanna', baseController.getSavanna);
+router.get('/hannah', baseController.getHannah);
+router.get('/Age', baseController.getAge);
 
-routes.get('/', baseController.getName);
-routes.get('/savanna', baseController.getSavanna);
-routes.get('/hannah', baseController.getHannah);
-routes.get('/Age', baseController.getAge);
+router.get('/savanna2', secondController.getSavanna2);
+router.get('/hannah2', secondController.getHannah2);
+router.get('/Age2', secondController.getAge2);
 
-routes.get('/savanna2', secondController.getSavanna2);
-routes.get('/hannah2', secondController.getHannah2);
-routes.get('/Age2', secondController.getAge2);
+// Use other route files
+router.use('/contacts', require('./contacts'));
+router.get('/contact', contactController.getContact);
+router.use('/meds', require('./meds'));
 
+// Add a health check endpoint that doesn't require authentication
+router.get('/health', (req, res) => {
+    res.status(200).json({ status: 'ok' });
+});
 
-routes.use('/contacts', require('./contacts'))
-routes.get('/contact', contactController.getContact);
-
-routes.use('/meds', require('./meds'))
-// routes.get('/med', medController.getMeds);
-
-module.exports = routes;
-
-// const express = require('express');
-// const router = express.Router();
-// const indexController = require('../controllers/index');
-
-// // Define routes
-// router.get('/', indexController.homepage);
-
-// module.exports = router;
-
-// const routes = require('express').Router();
-
-// const baseController = require('../controllers');
-
-// routes.get('/', baseController.getName);
-
-// module.exports = routes;
+module.exports = router;

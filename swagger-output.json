@@ -16,6 +16,13 @@
   "schemes": [
     "https"
   ],
+  "securityDefinitions": {
+    "bearerAuth": {
+      "type": "http",
+      "scheme": "bearer",
+      "bearerFormat": "JWT"
+    }
+  },
   "paths": {
     "/": {
       "get": {
@@ -29,6 +36,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "default": {
+            "description": ""
           }
         }
       },
@@ -320,6 +330,16 @@
         "responses": {
           "default": {
             "description": ""
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -662,16 +682,6 @@
           }
         }
       }
-    },
-    "/health": {
-      "get": {
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
     }
   },
   "definitions": {
@@ -832,5 +842,10 @@
         }
       }
     }
-  }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ]
 }

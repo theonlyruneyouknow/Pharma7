@@ -15,7 +15,7 @@ const saveContact = (req, res, next) => {
     NDC: 'required|integer',
     Insurance: 'required|string',
     // Change this to accept any type instead of requiring a string
-    ClaimReference: 'any',  
+    // ClaimReference: 'any',  
     Price: 'required|string'
   };
 
