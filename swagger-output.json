@@ -5,7 +5,7 @@
     "description": "Week7 CSE 341 - Rune Larsen",
     "version": "1.0.0"
   },
-  "host": "pharma7.onrender.com",
+  "host": "localhost:4000",
   "basePath": "/",
   "tags": [
     {
@@ -20,13 +20,16 @@
   "paths": {
     "/": {
       "get": {
-        "description": "",
+        "tags": [
+          "Meds"
+        ],
+        "description": "Endpoint to get all MEDS contacts",
+        "produces": [
+          "application/json"
+        ],
         "responses": {
           "200": {
             "description": "OK"
-          },
-          "default": {
-            "description": ""
           }
         }
       },
@@ -34,15 +37,21 @@
         "tags": [
           "Meds"
         ],
-        "description": "Create a new medication",
+        "description": "Endpoint to create a Meds",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "body",
             "in": "body",
-            "description": "Medication information",
-            "required": true,
             "schema": {
-              "$ref": "#/definitions/Meds"
+              "type": "object",
+              "properties": {
+                "ClaimReference": {
+                  "example": "any"
+                }
+              }
             }
           }
         ],
@@ -61,7 +70,13 @@
     },
     "/{id}": {
       "get": {
-        "description": "",
+        "tags": [
+          "Meds"
+        ],
+        "description": "Endpoint to get one Meds",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -82,9 +97,6 @@
           },
           "500": {
             "description": "Internal Server Error"
-          },
-          "default": {
-            "description": ""
           }
         }
       },
@@ -92,7 +104,7 @@
         "tags": [
           "Meds"
         ],
-        "description": "Create a new medication",
+        "description": "Endpoint to update all Meds",
         "parameters": [
           {
             "name": "id",
@@ -103,17 +115,50 @@
           {
             "name": "body",
             "in": "body",
-            "description": "Medication information",
-            "required": true,
             "schema": {
-              "$ref": "#/definitions/Meds"
+              "type": "object",
+              "properties": {
+                "ClaimReference": {
+                  "example": "any"
+                },
+                "Name": {
+                  "example": "any"
+                },
+                "FillDate": {
+                  "example": "any"
+                },
+                "Prescription": {
+                  "example": "any"
+                },
+                "Rx": {
+                  "example": "any"
+                },
+                "Qty": {
+                  "example": "any"
+                },
+                "Prescriber": {
+                  "example": "any"
+                },
+                "Pharmacist": {
+                  "example": "any"
+                },
+                "NDC": {
+                  "example": "any"
+                },
+                "Insurance": {
+                  "example": "any"
+                },
+                "Claim": {
+                  "example": "any"
+                },
+                "Price": {
+                  "example": "any"
+                }
+              }
             }
           }
         ],
         "responses": {
-          "201": {
-            "description": "Created"
-          },
           "204": {
             "description": "No Content"
           },
@@ -129,28 +174,16 @@
         "tags": [
           "Meds"
         ],
-        "description": "Create a new medication",
+        "description": "Endpoint to delete a Meds",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "description": "Medication information",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Meds"
-            }
           }
         ],
         "responses": {
-          "201": {
-            "description": "Created"
-          },
           "204": {
             "description": "No Content"
           },
@@ -473,10 +506,16 @@
     },
     "/meds/": {
       "get": {
-        "description": "",
+        "tags": [
+          "Meds"
+        ],
+        "description": "Endpoint to get all MEDS contacts",
+        "produces": [
+          "application/json"
+        ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "OK"
           }
         }
       },
@@ -484,34 +523,40 @@
         "tags": [
           "Meds"
         ],
-        "description": "Create a new medication",
+        "description": "Endpoint to create a Meds",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "body",
             "in": "body",
-            "description": "Medication information",
-            "required": true,
             "schema": {
-              "$ref": "#/definitions/Meds"
+              "type": "object",
+              "properties": {
+                "ClaimReference": {
+                  "example": "any"
+                }
+              }
             }
           }
         ],
         "responses": {
-          "201": {
-            "description": "Created"
-          },
           "412": {
             "description": "Precondition Failed"
-          },
-          "500": {
-            "description": "Internal Server Error"
           }
         }
       }
     },
     "/meds/{id}": {
       "get": {
-        "description": "",
+        "tags": [
+          "Meds"
+        ],
+        "description": "Endpoint to get one Meds",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -521,8 +566,17 @@
           }
         ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       },
@@ -530,7 +584,7 @@
         "tags": [
           "Meds"
         ],
-        "description": "Create a new medication",
+        "description": "Endpoint to update all Meds",
         "parameters": [
           {
             "name": "id",
@@ -541,16 +595,52 @@
           {
             "name": "body",
             "in": "body",
-            "description": "Medication information",
-            "required": true,
             "schema": {
-              "$ref": "#/definitions/Meds"
+              "type": "object",
+              "properties": {
+                "ClaimReference": {
+                  "example": "any"
+                },
+                "Name": {
+                  "example": "any"
+                },
+                "FillDate": {
+                  "example": "any"
+                },
+                "Prescription": {
+                  "example": "any"
+                },
+                "Rx": {
+                  "example": "any"
+                },
+                "Qty": {
+                  "example": "any"
+                },
+                "Prescriber": {
+                  "example": "any"
+                },
+                "Pharmacist": {
+                  "example": "any"
+                },
+                "NDC": {
+                  "example": "any"
+                },
+                "Insurance": {
+                  "example": "any"
+                },
+                "Claim": {
+                  "example": "any"
+                },
+                "Price": {
+                  "example": "any"
+                }
+              }
             }
           }
         ],
         "responses": {
-          "201": {
-            "description": "Created"
+          "204": {
+            "description": "No Content"
           },
           "412": {
             "description": "Precondition Failed"
@@ -564,27 +654,21 @@
         "tags": [
           "Meds"
         ],
-        "description": "Create a new medication",
+        "description": "Endpoint to delete a Meds",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "description": "Medication information",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Meds"
-            }
           }
         ],
         "responses": {
-          "201": {
-            "description": "Created"
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request"
           },
           "500": {
             "description": "Internal Server Error"

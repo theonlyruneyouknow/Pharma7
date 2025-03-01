@@ -6,7 +6,8 @@ const doc = {
         description: "Week7 CSE 341 - Rune Larsen",
         version: "1.0.0"
     },
-    host: 'pharma7.onrender.com',
+    host: 
+        'localhost:4000',
     schemes: ['https', 'http'],
     tags: [
         {

@@ -1,6 +1,8 @@
 const mongodb = require('../db/connect');
 const ObjectId = require('mongodb').ObjectId;
 
+const medsController = require('./meds1c');  // Make sure this path is correct
+
 
 // GET all meds
 const getAllMeds = async (req, res) => {
@@ -18,14 +20,14 @@ const getAllMeds = async (req, res) => {
 
 // Create new med
 // const createMeds = async (req, res) => {
-  /* #swagger.tags = ['Meds']
-     #swagger.description = 'Endpoint to create a new medication'
-     #swagger.parameters['body'] = {
-        in: 'body',
-        description: 'Medication information',
-        required: true,
-        schema: { $ref: '#/definitions/Meds' }
-     } */
+/* #swagger.tags = ['Meds']
+   #swagger.description = 'Endpoint to create a new medication'
+   #swagger.parameters['body'] = {
+      in: 'body',
+      description: 'Medication information',
+      required: true,
+      schema: { $ref: '#/definitions/Meds' }
+   } */
 //   try {
 //     const meds = {
 //       Name: req.body.Name,
@@ -40,7 +42,7 @@ const getAllMeds = async (req, res) => {
 //       ClaimReference: req.body.Claim,
 //       Price: req.body.Price
 //     };
-    
+
 //     const response = await mongodb
 //       .getDb()
 //       .db()
@@ -59,50 +61,50 @@ const getAllMeds = async (req, res) => {
 
 // PUT update medication
 // router.put('/:id', (req, res) => {
-  /* #swagger.parameters['id'] = {
-      in: 'path',
-      description: 'Medication ID',
-      required: true
-  }
-  #swagger.parameters['body'] = {
-      in: 'body',
-      description: 'Update medication details',
-      required: true,
-      schema: { $ref: '#/definitions/Meds' }
-  } */
-  // Your PUT route logic here
+/* #swagger.parameters['id'] = {
+    in: 'path',
+    description: 'Medication ID',
+    required: true
+}
+#swagger.parameters['body'] = {
+    in: 'body',
+    description: 'Update medication details',
+    required: true,
+    schema: { $ref: '#/definitions/Meds' }
+} */
+// Your PUT route logic here
 // });
 
 // DELETE medication
 // router.delete('/:id', (req, res) => {
-  /* #swagger.parameters['id'] = {
-      in: 'path',
-      description: 'Medication ID',
-      required: true
-  } */
-  // Your DELETE route logic here
+/* #swagger.parameters['id'] = {
+    in: 'path',
+    description: 'Medication ID',
+    required: true
+} */
+// Your DELETE route logic here
 // });
 
 // POST new medication
 // router.post('/', (req, res) => {
-  /* #swagger.parameters['body'] = {
-    in: 'body',
-    description: 'Add a new medication',
-    required: true,
-    schema: {
-      $Name: "Medication Name",
-      $FillDate: "2025-02-22",
-      $Prescription: "12345",
-      $Rx: 1234,
-      $Qty: 30,
-      $Prescriber: "Dr. Smith",
-      $Pharmacist: "John Doe",
-      $NDC: "1234567890",
-      $Insurance: "Insurance Co",
-      $Claim: "CLM123",
-      $Price: "100.00"
-    }
-  } */
+/* #swagger.parameters['body'] = {
+  in: 'body',
+  description: 'Add a new medication',
+  required: true,
+  schema: {
+    $Name: "Medication Name",
+    $FillDate: "2025-02-22",
+    $Prescription: "12345",
+    $Rx: 1234,
+    $Qty: 30,
+    $Prescriber: "Dr. Smith",
+    $Pharmacist: "John Doe",
+    $NDC: "1234567890",
+    $Insurance: "Insurance Co",
+    $Claim: "CLM123",
+    $Price: "100.00"
+  }
+} */
 //   const meds = {
 //     Name: req.body.Name,
 //     FillDate: req.body.FillDate,
@@ -146,7 +148,7 @@ const updateMeds = async (req, res) => {
   const userId = new ObjectId(req.params.id);
   // be aware of updateOne if you only want to update specific fields
   const contact = {
-    
+
     Name: req.body.Name,
     FillDate: req.body.FillDate,
     Prescription: req.body.Prescription,
@@ -203,52 +205,8 @@ const postsingleMeds = async (req, res, next) => {
 }
 
 const createMeds = async (req, res) => {
-  #swagger.tags = ['Meds']
-  #swagger.description = 'Endpoint to create a Meds'
-  #swagger.parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "Name": {
-                  "example": "any"
-                },
-                "FillDate": {
-                  "example": "any"
-                },
-                "Prescription": {
-                  "example": "any"
-                },
-                "Rx": {
-                  "example": "any"
-                },
-                "Qty": {
-                  "example": "any"
-                },
-                "Prescriber": {
-                  "example": "any"
-                },
-                "Pharmacist": {
-                  "example": "any"
-                },
-                "NDC": {
-                  "example": "any"
-                },
-                "Insurance": {
-                  "example": "any"
-                },
-                "Claim": {
-                  "example": "any"
-                },
-                "Price": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
+
+
   try {
     const meds = {
       Name: req.body.Name,
@@ -263,22 +221,22 @@ const createMeds = async (req, res) => {
       ClaimReference: req.body.Claim,
       Price: req.body.Price
     };
-    
+
     const response = await mongodb
       .getDb()
       .db()
       .collection('Pharma2')
       .insertOne(med);
 
-      if (response.acknowledged) {
-        res.status(201).json(response);
-      } else {
-        res.status(500).json(response.error || 'Error occurred while creating Med.');
-      }
-    } catch (err) {
-      res.status(500).json(err);
+    if (response.acknowledged) {
+      res.status(201).json(response);
+    } else {
+      res.status(500).json(response.error || 'Error occurred while creating Med.');
     }
-  };
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
 
 const getSingleMeds = async (req, res) => {
   // #swagger.tags = ['Meds']
@@ -317,14 +275,14 @@ const deleteMeds = async (req, res) => {
       res.status(400).json('Invalid Med ID format');
       return;
     }
-    
+
     const userId = new ObjectId(req.params.id);
     const response = await mongodb
       .getDb()
       .db()
       .collection('Pharma2')
-      .deleteOne({ _id: userId },true);
-      
+      .deleteOne({ _id: userId }, true);
+
     if (response.deletedCount > 0) {
       res.status(204).send();
     } else {
@@ -336,6 +294,8 @@ const deleteMeds = async (req, res) => {
 };
 
 
-module.exports = { getAllMeds, getSingleMeds, updateMeds, 
+module.exports = {
+  getAllMeds, getSingleMeds, updateMeds,
   postsingleMeds, deleteMeds,
-  createMeds };
+  createMeds
+};

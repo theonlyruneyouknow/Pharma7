@@ -1,11 +1,136 @@
 const mongodb = require('../db/connect');
 const ObjectId = require('mongodb').ObjectId;
 
-const contactsController = require('../controllers/contacts');
 
-const medsController = require('../controllers/meds');
+// GET all meds
+const getAllMeds = async (req, res) => {
+  /* #swagger.tags = ['Meds']
+     #swagger.description = 'Endpoint to get all medications' */
+  try {
+    const result = await mongodb.getDb().db().collection('Pharma2').find();
+    const lists = await result.toArray();
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).json(lists);
+  } catch (err) {
+    res.status(500).json(err.message);
+  }
+};
 
-const getAllMeds = async (req, res, next) => {
+// Create new med
+const createMeds2 = async (req, res) => {
+  /* #swagger.tags = ['Meds']
+     #swagger.description = 'Endpoint to create a new medication'
+     #swagger.parameters['body'] = {
+        in: 'body',
+        description: 'Medication information',
+        required: true,
+        schema: { $ref: '#/definitions/Meds' }
+     } */
+  try {
+    const meds = {
+      Name: req.body.Name,
+      FillDate: req.body.FillDate,
+      Prescription: req.body.Prescription,
+      Rx: req.body.Rx,
+      Qty: req.body.Qty,
+      Prescriber: req.body.Prescriber,
+      Pharmacist: req.body.Pharmacist,
+      NDC: req.body.NDC,
+      Insurance: req.body.Insurance,
+      ClaimReference: req.body.Claim,
+      Price: req.body.Price
+    };
+    
+    const response = await mongodb
+      .getDb()
+      .db()
+      .collection('Pharma2')
+      .insertOne(meds);
+
+    if (response.acknowledged) {
+      res.status(201).json(response);
+    } else {
+      res.status(500).json(response.error || 'Error occurred while creating Med.');
+    }
+  } catch (err) {
+    res.status(500).json(err.message);
+  }
+};
+
+// PUT update medication
+router.put('/:id', (req, res) => {
+  /* #swagger.parameters['id'] = {
+      in: 'path',
+      description: 'Medication ID',
+      required: true
+  }
+  #swagger.parameters['body'] = {
+      in: 'body',
+      description: 'Update medication details',
+      required: true,
+      schema: { $ref: '#/definitions/Meds' }
+  } */
+  // Your PUT route logic here
+});
+
+// DELETE medication
+router.delete('/:id', (req, res) => {
+  /* #swagger.parameters['id'] = {
+      in: 'path',
+      description: 'Medication ID',
+      required: true
+  } */
+  // Your DELETE route logic here
+});
+
+// POST new medication
+router.post('/', (req, res) => {
+  /* #swagger.parameters['body'] = {
+    in: 'body',
+    description: 'Add a new medication',
+    required: true,
+    schema: {
+      $Name: "Medication Name",
+      $FillDate: "2025-02-22",
+      $Prescription: "12345",
+      $Rx: 1234,
+      $Qty: 30,
+      $Prescriber: "Dr. Smith",
+      $Pharmacist: "John Doe",
+      $NDC: "1234567890",
+      $Insurance: "Insurance Co",
+      $Claim: "CLM123",
+      $Price: "100.00"
+    }
+  } */
+  const meds = {
+    Name: req.body.Name,
+    FillDate: req.body.FillDate,
+    Prescription: req.body.Prescription,
+    Rx: req.body.Rx,
+    Qty: req.body.Qty,
+    Prescriber: req.body.Prescriber,
+    Pharmacist: req.body.Pharmacist,
+    NDC: req.body.NDC,
+    Insurance: req.body.Insurance,
+    ClaimReference: req.body.Claim,
+    Price: req.body.Price
+  };
+
+  const response = mongodb
+    .getDb()
+    .db()
+    .collection('Pharma2')
+    .insertOne(meds); // Changed from med to meds
+
+  if (response.acknowledged) {
+    res.status(201).json(response);
+  } else {
+    res.status(500).json(response.error || 'Error occurred while creating Med.');
+  }
+});
+
+const getAllMeds2 = async (req, res, next) => {
   // #swagger.tags = ['Meds']
   // #swagger.description = 'Endpoint to get all MEDS contacts'
   const result = await mongodb.getDb().db().collection('Pharma2').find();
@@ -78,52 +203,8 @@ const postsingleMeds = async (req, res, next) => {
 }
 
 const createMeds = async (req, res) => {
-  // #swagger.tags = ['Meds']
-  // #swagger.description = 'Endpoint to create a Meds'
-  // #swagger.parameters": [
-        //   {
-        //     "name": "body",
-        //     "in": "body",
-        //     "schema": {
-        //       "type": "object",
-        //       "properties": {
-        //         "Name": {
-        //           "example": "any"
-        //         },
-        //         "FillDate": {
-        //           "example": "any"
-        //         },
-        //         "Prescription": {
-        //           "example": "any"
-        //         },
-        //         "Rx": {
-        //           "example": "any"
-        //         },
-        //         "Qty": {
-        //           "example": "any"
-        //         },
-        //         "Prescriber": {
-        //           "example": "any"
-        //         },
-        //         "Pharmacist": {
-        //           "example": "any"
-        //         },
-        //         "NDC": {
-        //           "example": "any"
-        //         },
-        //         "Insurance": {
-        //           "example": "any"
-        //         },
-        //         "Claim": {
-        //           "example": "any"
-        //         },
-        //         "Price": {
-        //           "example": "any"
-        //         }
-        //       }
-        //     }
-        //   }
-        // ],
+
+ 
   try {
     const meds = {
       Name: req.body.Name,
@@ -213,4 +294,4 @@ const deleteMeds = async (req, res) => {
 
 module.exports = { getAllMeds, getSingleMeds, updateMeds, 
   postsingleMeds, deleteMeds,
-  createMeds };
+  createMeds, createMeds2, getAllMeds2 };
