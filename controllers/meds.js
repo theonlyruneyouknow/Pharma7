@@ -31,7 +31,7 @@ const updateMeds = async (req, res) => {
     Pharmacist: req.body.Pharmacist,
     NDC: req.body.NDC,
     Insurance: req.body.Insurance,
-    ClaimReference: req.body.Claim,
+    ClaimReference: req.body.ClaimReference,
     Price: req.body.Price
 
     // firstName: req.body.firstName,
@@ -78,52 +78,16 @@ const postsingleMeds = async (req, res, next) => {
 }
 
 const createMeds = async (req, res) => {
-  // #swagger.tags = ['Meds']
-  // #swagger.description = 'Endpoint to create a Meds'
-  // #swagger.parameters": [
-        //   {
-        //     "name": "body",
-        //     "in": "body",
-        //     "schema": {
-        //       "type": "object",
-        //       "properties": {
-        //         "Name": {
-        //           "example": "any"
-        //         },
-        //         "FillDate": {
-        //           "example": "any"
-        //         },
-        //         "Prescription": {
-        //           "example": "any"
-        //         },
-        //         "Rx": {
-        //           "example": "any"
-        //         },
-        //         "Qty": {
-        //           "example": "any"
-        //         },
-        //         "Prescriber": {
-        //           "example": "any"
-        //         },
-        //         "Pharmacist": {
-        //           "example": "any"
-        //         },
-        //         "NDC": {
-        //           "example": "any"
-        //         },
-        //         "Insurance": {
-        //           "example": "any"
-        //         },
-        //         "Claim": {
-        //           "example": "any"
-        //         },
-        //         "Price": {
-        //           "example": "any"
-        //         }
-        //       }
-        //     }
-        //   }
-        // ],
+  /* #swagger.tags = ['Meds']
+     #swagger.description = 'Endpoint to create a new medication'
+     #swagger.parameters['body'] = {
+        in: 'body',
+        description: 'Medication information',
+        required: true,
+        schema: { $ref: '#/definitions/Meds' }
+     } 
+  */
+  
   try {
     const meds = {
       Name: req.body.Name,
@@ -135,7 +99,7 @@ const createMeds = async (req, res) => {
       Pharmacist: req.body.Pharmacist,
       NDC: req.body.NDC,
       Insurance: req.body.Insurance,
-      ClaimReference: req.body.Claim,
+      ClaimReference: req.body.ClaimReference,
       Price: req.body.Price
     };
     
@@ -143,7 +107,7 @@ const createMeds = async (req, res) => {
       .getDb()
       .db()
       .collection('Pharma2')
-      .insertOne(med);
+      .insertOne(meds);
 
       if (response.acknowledged) {
         res.status(201).json(response);
