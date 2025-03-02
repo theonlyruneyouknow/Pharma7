@@ -4,12 +4,19 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger-output.json');
 const cors = require('cors');
 require('dotenv').config();
-const { authRouter, checkJwt } = require('./middleware/auth0');
 const mongodb = require('./db/connect');
 const os = require('os');
 const requiresAuth = require('./middleware/requiresAuth');
 const expressLayouts = require('express-ejs-layouts');
-const authBridge = require('./middleware/auth-bridge');
+const cookieParser = require('cookie-parser');
+
+// Import routes
+const medsRoutes = require('./routes/meds');
+
+// Choose ONE auth approach - either Auth0 OR dummy auth, not both
+// For now, let's use the dummy auth which we know works
+// const dummyAuth = require('./middleware/dummy-auth');
+const auth0Middleware = require('./middleware/auth0');
 
 // Configure CORS
 const corsOptions = {
@@ -26,6 +33,7 @@ const corsOptions = {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors(corsOptions));
+app.use(cookieParser());
 
 // Set up view engine before any routes
 app.use(expressLayouts);
@@ -33,43 +41,42 @@ app.set('layout', 'layout');
 app.set('view engine', 'ejs');
 app.set('views', './views');
 
-// IMPORTANT: Add Auth0 middleware FIRST
-app.use(authRouter);
+// Apply the Auth0 middleware
+app.use(auth0Middleware);
 
-// Now you can define routes that use res.oidc
-app.get('/login', (req, res) => {
-  // Get the returnTo from query string or use the referer as fallback
-  const returnTo = req.query.returnTo || req.headers.referer || '/';
-  
-  // Store it in the session or as a parameter
+// Remove custom login/logout routes since Auth0 will handle them
+// app.get('/login', (req, res) => {...});
+// app.get('/logout', (req, res) => {...});
+
+// Instead, if you need to customize the redirect:
+app.get('/custom-login', (req, res) => {
   res.oidc.login({
-    returnTo: returnTo
+    returnTo: req.query.returnTo || '/'
   });
 });
 
-// Custom logout route - will now work because authRouter is already loaded
+// If you need custom parameters for logout:
 app.get('/custom-logout', (req, res) => {
-  res.oidc.logout({ returnTo: process.env.BASE_URL || 'http://localhost:4000' });
+  res.oidc.logout({
+    returnTo: process.env.BASE_URL || 'http://localhost:4000'
+  });
 });
 
-// API documentation - protected with authentication
-app.use('/api-docs', requiresAuth, swaggerUi.serve);
+// Protected API documentation
+app.use('/api-docs', swaggerUi.serve);
 app.get('/api-docs', requiresAuth, (req, res) => {
-  // Extract the access token from the Auth0 session
-  const accessToken = req.oidc.accessToken?.access_token || '';
-  
+  // This ensures it's properly protected
   const swaggerHtml = swaggerUi.generateHTML(swaggerDocument, {
     customSiteTitle: 'Pharma API Documentation',
-    customfavIcon: '',
     customCss: `
-      .swagger-ui .topbar { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; }
-      .logout-btn { color: #fff; background-color: #dc3545; padding: 5px 15px; border-radius: 4px; text-decoration: none; margin-left: 10px; }
+      .swagger-ui .topbar { display: flex; justify-content: space-between; align-items: center; }
       .nav-link { color: #fff; text-decoration: none; margin: 0 15px; }
+      .logout-btn { color: #fff; background-color: #dc3545; padding: 5px 15px; border-radius: 4px; text-decoration: none; margin-left: 10px; }
       .nav-container { display: flex; align-items: center; }
     `
   });
   
-  // Insert navigation and logout button into the Swagger HTML
+  // Insert navigation with conditional login/logout
   let modifiedHtml = swaggerHtml.replace(
     '<div class="topbar">',
     `<div class="topbar">
@@ -85,44 +92,17 @@ app.get('/api-docs', requiresAuth, (req, res) => {
       </div>`
   );
   
-  // Add script to automatically set the bearer token for all requests
-  if (accessToken) {
-    modifiedHtml = modifiedHtml.replace(
-      '</body>',
-      `<script>
-        // Auto-authorize with the token from the Auth0 session
-        window.onload = function() {
-          // Wait for Swagger UI to initialize
-          setTimeout(function() {
-            // Pre-fill the auth token
-            const authBtn = document.querySelector('.authorize');
-            if (authBtn) {
-              // Click the authorize button
-              authBtn.click();
-              
-              // Fill in the token field
-              setTimeout(function() {
-                const tokenField = document.querySelector('input[data-parameter-name="Authorization"]');
-                if (tokenField) {
-                  tokenField.value = "Bearer ${accessToken}";
-                  
-                  // Submit the form
-                  const authorizeBtn = document.querySelector('.auth-btn-wrapper button.authorize');
-                  if (authorizeBtn) {
-                    authorizeBtn.click();
-                  }
-                }
-              }, 500);
-            }
-          }, 1000);
-        };
-      </script>
-      </body>`
-    );
-  }
-  
-  // Make sure to actually send the modified HTML
+  // Send the modified HTML
   res.send(modifiedHtml);
+});
+
+// Simple routes to test authentication
+app.get('/', (req, res) => {
+  res.render('index', {
+    title: 'Home',
+    isAuthenticated: req.oidc.isAuthenticated(),
+    user: req.oidc.isAuthenticated() ? req.oidc.user : null
+  });
 });
 
 // Protected profile route
@@ -134,11 +114,8 @@ app.get('/profile', requiresAuth, (req, res) => {
   });
 });
 
-// Add the auth bridge middleware before API routes
-app.use(authBridge);
-
-// Protected API routes with JWT check
-app.use('/meds', checkJwt, require('./routes/meds'));
+// Use meds routes with JWT protection
+app.use('/meds', requiresAuth, medsRoutes);
 
 // Main routes
 app.use('/', require('./routes'));
