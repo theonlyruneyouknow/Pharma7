@@ -5,7 +5,7 @@
     "description": "Week7 CSE 341 - Rune Larsen",
     "version": "1.0.0"
   },
-  "host": "localhost:4000",
+  "host": "pharma7.onrender.com",
   "basePath": "/",
   "tags": [
     {
@@ -14,7 +14,6 @@
     }
   ],
   "schemes": [
-    "http",
     "https"
   ],
   "securityDefinitions": {
