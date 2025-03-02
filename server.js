@@ -46,6 +46,37 @@ app.set('layout', 'layout');
 app.set('view engine', 'ejs');
 app.set('views', './views');
 
+// Add explicit callback handling - place this BEFORE the Auth0 middleware
+app.get('/callback', (req, res, next) => {
+  // Log incoming callback parameters
+  console.log('Auth0 callback received:', {
+    query: req.query,
+    path: req.path,
+    has_error: !!req.query.error
+  });
+  
+  // If there's an error in the callback, handle it gracefully
+  if (req.query.error) {
+    console.error('Auth0 callback error:', req.query.error, req.query.error_description);
+    return res.render('error', {
+      title: 'Authentication Error',
+      message: req.query.error_description || 'An error occurred during authentication',
+      error: { status: 401, stack: process.env.NODE_ENV === 'development' ? req.query.error : '' },
+      isAuthenticated: false,
+      user: null
+    });
+  }
+  
+  // Let the Auth0 middleware handle successful callbacks
+  next();
+});
+
+// Add this BEFORE the Auth0 middleware
+app.use((req, res, next) => {
+  console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
+  next();
+});
+
 // Apply the Auth0 middleware
 app.use(auth0Middleware);
 
@@ -83,20 +114,6 @@ if (process.env.NODE_ENV === 'production') {
   
   app.get('/logout', (req, res) => {
     res.redirect('/');
-  });
-
-  // Handle Auth0 callback errors
-  app.get('/callback', (req, res, next) => {
-    if (req.query.error) {
-      console.error('Auth0 callback error:', req.query.error, req.query.error_description);
-      return res.render('login', {
-        title: 'Login Failed',
-        error: `Authentication error: ${req.query.error_description || req.query.error}`,
-        isAuthenticated: false,
-        user: null
-      });
-    }
-    next();
   });
 }
 
@@ -164,6 +181,15 @@ app.use((err, req, res, next) => {
   res.status(500).json({
     error: 'Internal Server Error',
     message: err.message
+  });
+});
+
+// Add global error handler
+app.use((err, req, res, next) => {
+  console.error('EXPRESS ERROR:', err);
+  res.status(500).json({
+    error: err.message || 'Internal Server Error',
+    stack: process.env.NODE_ENV === 'production' ? '🥞' : err.stack
   });
 });
 
