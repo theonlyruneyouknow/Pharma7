@@ -12,19 +12,19 @@ console.log('Base URL:', baseUrl);
 console.log('Auth0 Domain:', domain);
 
 // Special configuration for Render deployment
+// Better approach for handling secrets
 const config = {
   authRequired: false,
   auth0Logout: true,
-  secret: process.env.AUTH0_SECRET || 'a-long-random-string-at-least-32-characters',
+  secret: process.env.AUTH0_SECRET, // No fallback for production
   baseURL: baseUrl,
-  clientID: process.env.AUTH0_CLIENT_ID || 'A07aavT8jjCMjsFZCr6mq4Ob8AWYnn2w',
-  clientSecret: process.env.AUTH0_CLIENT_SECRET || 'GreatIsTheSecret',
-  issuerBaseURL: `https://${domain || 'dev-2m0hivzhngw2t7lk.us.auth0.com'}`,
+  clientID: process.env.AUTH0_CLIENT_ID,
+  clientSecret: process.env.AUTH0_CLIENT_SECRET,
+  issuerBaseURL: `https://${process.env.AUTH0_DOMAIN}`,
   authorizationParams: {
     response_type: 'code',
     scope: 'openid profile email'
   },
-  // Try POST instead of Basic authentication
   clientAuthMethod: 'client_secret_post'
 };
 
