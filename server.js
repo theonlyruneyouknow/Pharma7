@@ -62,6 +62,25 @@ app.get('/custom-logout', (req, res) => {
   });
 });
 
+// Add this near your other routes
+if (process.env.NODE_ENV === 'production') {
+  // Fallback login/logout for Render in case Auth0 isn't working
+  app.get('/login', (req, res) => {
+    // If Auth0 is working, this won't be hit due to middleware order
+    console.log('Fallback login route hit - Auth0 might not be configured correctly');
+    res.render('login', { 
+      title: 'Login',
+      error: 'Auth0 authentication is currently unavailable. Please try again later.',
+      isAuthenticated: false,
+      user: null
+    });
+  });
+  
+  app.get('/logout', (req, res) => {
+    res.redirect('/');
+  });
+}
+
 // Protected API documentation
 app.use('/api-docs', swaggerUi.serve);
 app.get('/api-docs', requiresAuth, (req, res) => {
