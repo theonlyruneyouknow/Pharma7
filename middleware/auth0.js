@@ -25,7 +25,7 @@ const config = {
     response_type: 'code',
     scope: 'openid profile email'
   },
-  clientAuthMethod: 'client_secret_basic'
+  // clientAuthMethod: 'client_secret_basic'
 };
 
 // In production
