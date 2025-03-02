@@ -134,9 +134,10 @@ app.get('/api-docs', requiresAuth, (req, res) => {
       .swagger-ui .topbar { display: flex; justify-content: space-between; align-items: center; }
       .nav-link { color: #fff; text-decoration: none; margin: 0 15px; }
       .logout-btn { color: #fff; background-color: #dc3545; padding: 5px 15px; border-radius: 4px; text-decoration: none; margin-left: 10px; }
+      .custom-btn { color: #fff; background-color: #007bff; padding: 5px 15px; border-radius: 4px; text-decoration: none; margin-left: 10px; }
       .nav-container { display: flex; align-items: center; }
     `
-  );
+  });
   
   // Insert navigation with conditional login/logout
   let modifiedHtml = swaggerHtml.replace(
