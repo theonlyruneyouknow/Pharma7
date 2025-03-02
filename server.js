@@ -93,8 +93,15 @@ app.get('/custom-login', (req, res) => {
 
 // If you need custom parameters for logout:
 app.get('/custom-logout', (req, res) => {
+  // Environment-aware returnTo URL
+  const returnTo = process.env.NODE_ENV === 'production' 
+    ? 'https://pharma7.onrender.com'
+    : (process.env.BASE_URL || 'http://localhost:4000');
+  
+  console.log(`Logging out with returnTo: ${returnTo}`);
+  
   res.oidc.logout({
-    returnTo: process.env.BASE_URL || 'http://localhost:4000'
+    returnTo: returnTo
   });
 });
 
@@ -129,7 +136,7 @@ app.get('/api-docs', requiresAuth, (req, res) => {
       .logout-btn { color: #fff; background-color: #dc3545; padding: 5px 15px; border-radius: 4px; text-decoration: none; margin-left: 10px; }
       .nav-container { display: flex; align-items: center; }
     `
-  });
+  );
   
   // Insert navigation with conditional login/logout
   let modifiedHtml = swaggerHtml.replace(
