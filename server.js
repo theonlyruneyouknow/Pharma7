@@ -10,6 +10,9 @@ const requiresAuth = require('./middleware/requiresAuth');
 const expressLayouts = require('express-ejs-layouts');
 const cookieParser = require('cookie-parser');
 
+// Add this right after your app creation
+app.enable('trust proxy'); // Important for secure cookies behind proxy
+
 // Import routes
 const medsRoutes = require('./routes/meds');
 
@@ -78,6 +81,20 @@ if (process.env.NODE_ENV === 'production') {
   
   app.get('/logout', (req, res) => {
     res.redirect('/');
+  });
+
+  // Handle Auth0 callback errors
+  app.get('/callback', (req, res, next) => {
+    if (req.query.error) {
+      console.error('Auth0 callback error:', req.query.error, req.query.error_description);
+      return res.render('login', {
+        title: 'Login Failed',
+        error: `Authentication error: ${req.query.error_description || req.query.error}`,
+        isAuthenticated: false,
+        user: null
+      });
+    }
+    next();
   });
 }
 

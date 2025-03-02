@@ -11,7 +11,7 @@ console.log('Environment mode:', isProduction ? 'Production' : 'Development');
 console.log('Base URL:', baseUrl);
 console.log('Auth0 Domain:', domain);
 
-// Simplified config with hardcoded fallbacks for Render
+// Special configuration for Render deployment
 const config = {
   authRequired: false,
   auth0Logout: true,
@@ -23,29 +23,52 @@ const config = {
   authorizationParams: {
     response_type: 'code',
     scope: 'openid profile email'
-  }
+  },
+  // Try POST instead of Basic authentication
+  clientAuthMethod: 'client_secret_post'
 };
 
-// In production, create a mock auth middleware if anything is missing
-if (isProduction && (!process.env.AUTH0_DOMAIN || !process.env.AUTH0_CLIENT_ID || !process.env.AUTH0_CLIENT_SECRET)) {
-  console.warn('WARNING: Missing Auth0 credentials, using mock authentication for testing');
-  // Export mock middleware that doesn't try to connect to Auth0
-  module.exports = function mockAuth(req, res, next) {
-    // Add a mock oidc object to the request
-    req.oidc = {
-      isAuthenticated: () => false,
-      user: null
+// In production
+if (isProduction) {
+  // Special logging to debug Auth0 issues
+  console.log('Auth0 Config for Production:', {
+    baseURL: baseUrl,
+    domain: domain,
+    clientAuthMethod: config.clientAuthMethod,
+    hasSecret: !!process.env.AUTH0_SECRET,
+    hasClientId: !!process.env.AUTH0_CLIENT_ID,
+    hasClientSecret: !!process.env.AUTH0_CLIENT_SECRET
+  });
+  
+  // Always provide a fallback for Render
+  if (!process.env.AUTH0_DOMAIN || !process.env.AUTH0_CLIENT_ID || !process.env.AUTH0_CLIENT_SECRET) {
+    console.warn('WARNING: Missing Auth0 credentials, using mock authentication for testing');
+    module.exports = function mockAuth(req, res, next) {
+      req.oidc = {
+        isAuthenticated: () => false,
+        user: null
+      };
+      next();
     };
-    next();
-  };
+  } else {
+    try {
+      module.exports = auth(config);
+      console.log('Auth0 middleware initialized successfully for production');
+    } catch (error) {
+      console.error('Failed to initialize Auth0 middleware:', error);
+      module.exports = function(req, res, next) {
+        req.oidc = { isAuthenticated: () => false, user: null };
+        next();
+      };
+    }
+  }
 } else {
-  // Export real Auth0 middleware
+  // Development environment
   try {
     module.exports = auth(config);
-    console.log('Auth0 middleware initialized successfully');
+    console.log('Auth0 middleware initialized successfully for development');
   } catch (error) {
     console.error('Failed to initialize Auth0 middleware:', error);
-    // Provide fallback middleware
     module.exports = function(req, res, next) {
       req.oidc = { isAuthenticated: () => false, user: null };
       next();
