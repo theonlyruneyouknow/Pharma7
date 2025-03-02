@@ -21,15 +21,14 @@ const medsRoutes = require('./routes/meds');
 // const dummyAuth = require('./middleware/dummy-auth');
 const auth0Middleware = require('./middleware/auth0');
 
-// Configure CORS
+// Update your CORS configuration to be more permissive
 const corsOptions = {
-  origin: '*',
+  origin: '*',  // Allow all origins - you can restrict this in production
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   preflightContinue: false,
   optionsSuccessStatus: 200,
   credentials: true,
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  maxAge: 600
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 };
 
 // Add middleware
@@ -37,6 +36,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors(corsOptions));
 app.use(cookieParser());
+
+// Add a pre-flight route handler for OPTIONS requests
+app.options('*', cors(corsOptions));
 
 // Set up view engine before any routes
 app.use(expressLayouts);
